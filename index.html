@@ -30,7 +30,7 @@ function gtag_report_conversion(url) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TelaFloripa — Telas e Redes de Proteção em Florianópolis</title>
-<meta name="description" content="Telas e redes de proteção para janelas e varandas em Florianópolis. Estimativa rápida pelo WhatsApp, orçamento final confirmado com nosso time.">
+<meta name="description" content="Telas e redes de proteção certificadas (INMETRO/ISO 9002) para janelas, varandas, piscinas e quintais em Florianópolis. Estimativa rápida pelo WhatsApp, orçamento final confirmado com nosso time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -131,6 +131,44 @@ function gtag_report_conversion(url) {
   }
   .stat-num{font-family:'Space Grotesk'; font-size:30px; font-weight:700; color:#fff;}
   .stat-label{font-size:13px; color:rgba(243,246,245,0.65);}
+
+  /* --- Hero grid (text + featured photo) --- */
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:44px; align-items:center;}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr; gap:32px;} }
+  .hero-media{position:relative; z-index:2;}
+  .hero-media img{
+    width:100%; border-radius:18px; display:block;
+    box-shadow:0 24px 54px rgba(0,0,0,0.38); border:3px solid rgba(243,246,245,0.18);
+  }
+  .hero-media-caption{
+    margin-top:12px; font-size:12.5px; color:rgba(243,246,245,0.6); text-align:center;
+  }
+  @media (max-width:900px){ .hero-media{max-width:420px; margin:0 auto;} }
+  .hero-trust{
+    margin-top:22px; font-family:'IBM Plex Mono'; font-size:12.5px; letter-spacing:0.03em;
+    color:rgba(243,246,245,0.7); position:relative; z-index:2;
+  }
+
+  /* --- Ficha técnica / specs --- */
+  .spec-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px;}
+  @media (max-width:800px){ .spec-grid{grid-template-columns:1fr;} }
+  .spec-card{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:30px 26px;}
+  .spec-card h3{font-size:17px; margin-bottom:16px; color:var(--ocean-deep); font-family:'Space Grotesk';}
+  .spec-list{list-style:none; display:flex; flex-direction:column; gap:11px;}
+  .spec-list li{position:relative; padding-left:24px; color:var(--ink-soft); font-size:14.5px; line-height:1.5;}
+  .spec-list li::before{content:"✓"; position:absolute; left:0; color:var(--coral); font-weight:700;}
+  .spec-note{margin-top:18px; font-size:13px; color:var(--ink-soft); font-style:italic;}
+
+  /* --- Proof strip (client photos banner) --- */
+  .proof-strip{padding:64px 0; background:#fff;}
+  .proof-strip .wrap{text-align:center;}
+  .proof-strip p{
+    font-family:'IBM Plex Mono'; font-size:13px; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:22px;
+  }
+  .proof-strip img{
+    width:100%; border-radius:16px; box-shadow:var(--shadow);
+  }
 
   /* --- Benefits --- */
   .benefits-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px;}
@@ -266,17 +304,25 @@ function gtag_report_conversion(url) {
 <section class="hero">
   <div class="net-pattern"></div>
   <div class="wrap">
-    <div class="eyebrow">Grande Florianópolis · Instalação ágil</div>
-    <h1>Telas e Redes de segurança para suas janelas e varandas.</h1>
-    <p class="sub">Telas e redes de proteção instaladas por quem entende de altura e de segurança: estimativa na hora pelo WhatsApp, sem precisar medir nada, sem visita obrigatória.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o" target="_blank" rel="noopener"onclick="return gtag_report_conversion('https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o');"> 💬 Orçamento pelo WhatsApp</a>
-      <a class="btn btn-ghost" href="#calculadora">Ver preços</a>
-    </div>
-    <div class="hero-stats">
-      <div><div class="stat-num">Rápida</div><div class="stat-label">resposta no WhatsApp</div></div>
-      <div><div class="stat-num">100%</div><div class="stat-label">material + garantia inclusos</div></div>
-      <div><div class="stat-num">R$0</div><div class="stat-label">custo do orçamento</div></div>
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="eyebrow">Grande Florianópolis · Instalação ágil</div>
+        <h1>Telas e Redes de segurança para suas janelas e varandas.</h1>
+        <p class="sub">Telas e redes de proteção instaladas por quem entende de altura e de segurança: estimativa na hora pelo WhatsApp, sem precisar medir nada, sem visita obrigatória.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o" target="_blank" rel="noopener"onclick="return gtag_report_conversion('https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o');"> 💬 Orçamento pelo WhatsApp</a>
+          <a class="btn btn-ghost" href="#calculadora">Ver preços</a>
+        </div>
+        <div class="hero-trust">✓ Certificação INMETRO · ✓ ISO 9002 · ✓ Testada pelo Instituto Falcão Bauer</div>
+        <div class="hero-stats">
+          <div><div class="stat-num">Rápida</div><div class="stat-label">resposta no WhatsApp</div></div>
+          <div><div class="stat-num">100%</div><div class="stat-label">material + garantia inclusos</div></div>
+          <div><div class="stat-num">R$0</div><div class="stat-label">custo do orçamento</div></div>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="images/gato-rede-varanda.jpg" alt="Gatinho protegido em varanda com rede de proteção RedeTela, com vista para o mar em Florianópolis" loading="eager">
+      </div>
     </div>
   </div>
 </section>
@@ -292,7 +338,7 @@ function gtag_report_conversion(url) {
       <div class="benefit-card">
         <div class="benefit-icon">🛡️</div>
         <h3>Segurança certificada</h3>
-        <p style="color:var(--ink-soft); font-size:14.5px; margin-top:6px;">Cabo de aço e fixação reforçada, testados para o peso de crianças e pets.</p>
+        <p style="color:var(--ink-soft); font-size:14.5px; margin-top:6px;">Rede de polietileno de alta densidade, malha 5×5 cm, resistente a até 500 kg/m² — com certificação INMETRO e ISO 9002.</p>
       </div>
       <div class="benefit-card">
         <div class="benefit-icon">⚡</div>
@@ -305,6 +351,46 @@ function gtag_report_conversion(url) {
         <p style="color:var(--ink-soft); font-size:14.5px; margin-top:6px;">Um valor por faixa de tamanho, sem letra miúda: material, mão de obra e garantia inclusos.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="especificacoes" style="background:#fff;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow light-eyebrow">Ficha técnica</div>
+      <h2>Rede de verdade, com laudo pra provar</h2>
+      <p>Não é qualquer nylon de loja de R$1,99. Trabalhamos com rede de polietileno de alta densidade, testada e certificada pra aguentar o peso de gente e bicho de verdade.</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <h3>Material e resistência</h3>
+        <ul class="spec-list">
+          <li>Polietileno 100% virgem de alta densidade</li>
+          <li>Malha de 5 × 5 cm</li>
+          <li>Fio com 2,0 mm de espessura</li>
+          <li>Resistência a impacto de até 500 kg/m²</li>
+          <li>Dupla camada de proteção anti-UV</li>
+          <li>Tratamento antioxidante</li>
+          <li>Não retém água — alta resistência ao sol e à chuva</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h3>Certificações e qualidade</h3>
+        <ul class="spec-list">
+          <li>Certificação INMETRO</li>
+          <li>ISO 9002</li>
+          <li>Testada e aprovada pelo Instituto Falcão Bauer</li>
+        </ul>
+        <p class="spec-note">Produto fabricado conforme normas rigorosas de segurança e qualidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof-strip">
+  <div class="wrap">
+    <p>Famílias, pets e crianças protegidos em toda a Grande Florianópolis</p>
+    <img src="images/clientes-instalacoes.jpg" alt="Instalações de rede de proteção RedeTela em varandas e janelas, com cachorro, gato e área infantil protegidos" loading="lazy">
   </div>
 </section>
 
@@ -409,7 +495,15 @@ function gtag_report_conversion(url) {
       </div>
       <div class="faq-item">
         <button class="faq-q">O que está incluso no preço?<span class="faq-icon">+</span></button>
-        <div class="faq-a"><p>Material (rede, cabo de aço e fixação), mão de obra da instalação e garantia. Não tem custo extra depois.</p></div>
+        <div class="faq-a"><p>Material (rede de polietileno, cordão de fixação e ganchos), mão de obra da instalação e garantia. Não tem custo extra depois.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Qual material da rede vocês usam?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Rede de polietileno 100% virgem de alta densidade, malha de 5×5 cm, fio de 2,0 mm, com resistência a impacto de até 500 kg/m². Tem dupla camada anti-UV, tratamento antioxidante e não retém água — aguenta sol e chuva sem perder a resistência.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">A rede tem certificação?<span class="faq-icon">+</span></button>
+        <div class="faq-a"><p>Sim. É certificada pelo INMETRO, segue a norma ISO 9002 e foi testada e aprovada pelo Instituto Falcão Bauer — fabricada conforme normas rigorosas de segurança e qualidade.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Quanto tempo leva pra instalar?<span class="faq-icon">+</span></button>
@@ -429,7 +523,6 @@ function gtag_report_conversion(url) {
 </footer>
 
   <a class="nav-cta" href="https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" onclick="return gtag_report_conversion('https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o');"> <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm5.79 14.09c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.29.58-.36.78-.36.19 0 .39 0 .55.01.18.01.42-.07.65.5.24.58.82 2.01.89 2.16.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.13-.28.28-.12.55.16.27.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.2 1.37.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.87.27.13.45.2.51.31.07.12.07.66-.17 1.34Z"/></svg></a>
-  </div>
 
 <script>
   // Calculator
