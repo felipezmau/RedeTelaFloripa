@@ -574,23 +574,31 @@ document.getElementById('btnZap').addEventListener('click', ()=>{
   const puExtra = ganchosGeral * cfg.precoPU;
 
   const msg =
-`SEGUE O ORÇAMENTO 👷🏽🦺🙏🏽
+`SEGUE ORÇAMENTO:
+
 Instalação padrão
-+ Rede 30/21 (21fios-esp. / 30mm torcido) 2.2mm geral, 5x5 (tamanho padrão) em polietileno alta densidade 100% virgem.
-+ Tratamento Anti-U.V.  e Anti-Oxidantes. (Evita o apodrecimento da rede).
-+ Ganchos zincados
-+ BUCHAS 8mm com flange
-+ 3 ANOS DE GARANTIA +
-  💵💰 R$${fmt(totalGeral)}
-FORMAS DE PAGAMENTO
-* PIX com 5% de desconto, ou cartão via link de pagamento.
-* Orçamento válido por 30 dias, sujeito a conferência no local.
-OPCIONAL:
-* Ganchos em inox + ${fmt(inoxExtra)}
-* Resina PU nas buchas caso seja obrigatório no condomínio + ${fmt(puExtra)}
-A Resina acrescenta uma proteção e resistência a mais na ancoragem
-Redes na cor Branca, ou Preta* Sob consulta
-** valores sujeitos a uma variação de 5 a 10% pra menos ou mais de acordo com aferição da medida final no local no dia da instalação`;
+💰 *R$ ${fmt(totalGeral)}*
+>> Forma de pagamento: PIX com 5% de desconto ou cartão via link de pagamento
+----------------
+O QUE INCLUI?
+✅ Rede 30/21 (21 fios / 30mm torcido), 2,2mm, malha 5x5 (padrão)
+✅ 100% polietileno de alta densidade virgem
+✅ Tratamento Anti-UV e Anti-Oxidante (evita o apodrecimento da rede)
+✅ Ganchos zincados
+✅ Buchas 8mm com flange
+✅ 3 anos de garantia
+----------------
+OPCIONAIS
+🔩 Ganchos em inox: + R$ ${fmt(inoxExtra)}
+🧪 Resina PU nas buchas (caso seja obrigatório no condomínio): + R$ ${fmt(puExtra)}
+_A resina acrescenta uma proteção e resistência a mais na ancoragem_
+----------------
+OBSERVAÇÕES
+🎨 Cores disponíveis: branca ou preta (sob consulta)
+📌 Orçamento válido por 30 dias, sujeito a conferência da medida no local
+⚠️ Valores sujeitos a variação de 5 a 10% pra mais ou menos, conforme aferição da medida final no dia da instalação
+----------------
+Qualquer dúvida, seguimos por aqui! 🙌`;
 
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
