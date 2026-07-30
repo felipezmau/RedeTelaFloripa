@@ -261,31 +261,31 @@
       <div class="config-grid">
         <div>
           <label>Preço por m² (R$)</label>
-          <input type="number" step="0.01" id="cfgM2" value="75">
+          <input type="text" inputmode="decimal" id="cfgM2" value="75">
         </div>
         <div>
           <label>Preço corda/m linear (R$)</label>
-          <input type="number" step="0.01" id="cfgCorda" value="1">
+          <input type="text" inputmode="decimal" id="cfgCorda" value="1">
         </div>
         <div>
           <label>Gomos por metro linear</label>
-          <input type="number" step="1" id="cfgGomos" value="14">
+          <input type="text" inputmode="decimal" id="cfgGomos" value="14">
         </div>
         <div>
           <label>Metros lineares por gancho</label>
-          <input type="number" step="0.01" id="cfgEspacGancho" value="0.35">
+          <input type="text" inputmode="decimal" id="cfgEspacGancho" value="0.35">
         </div>
         <div>
           <label>Gancho zincado — padrão (R$/un)</label>
-          <input type="number" step="0.01" id="cfgGanchoZinc" value="0.50">
+          <input type="text" inputmode="decimal" id="cfgGanchoZinc" value="0.50">
         </div>
         <div>
           <label>Gancho inox — opcional (R$/un)</label>
-          <input type="number" step="0.01" id="cfgGanchoInox" value="1.50">
+          <input type="text" inputmode="decimal" id="cfgGanchoInox" value="1.50">
         </div>
         <div>
           <label>Adicional PU por gancho (R$/un)</label>
-          <input type="number" step="0.01" id="cfgPU" value="0.80">
+          <input type="text" inputmode="decimal" id="cfgPU" value="0.80">
         </div>
       </div>
       <p class="config-note">O preço padrão do orçamento usa gancho zincado. Os opcionais (inox e resina PU) são calculados em cima da quantidade real de ganchos do orçamento e aparecem separados, tanto na tela quanto na mensagem de WhatsApp. Gomos = medida do vão × fator, arredondado pra cima. Ganchos = perímetro ÷ espaçamento, arredondado pra cima. Valores ficam salvos neste aparelho.</p>
@@ -299,6 +299,9 @@
 const WHATSAPP_NUMBER = "5548988401081"; // (48) 98840-1081
 
 const fmt = (n) => n.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+// input type="number" só aceita ponto como separador decimal (padrão do HTML), então vírgula
+// era ignorada no celular. toNum() aceita tanto "1,53" quanto "1.53".
+const toNum = (v) => parseFloat(String(v).replace(',', '.'));
 
 function loadCfg(){
   const saved = JSON.parse(localStorage.getItem('redetela_cfg_v2') || '{}');
@@ -326,13 +329,13 @@ document.getElementById('cfgPU').value = cfg.precoPU;
 ['cfgM2','cfgCorda','cfgGomos','cfgEspacGancho','cfgGanchoZinc','cfgGanchoInox','cfgPU'].forEach(id=>{
   document.getElementById(id).addEventListener('input', ()=>{
     cfg = {
-      precoM2: parseFloat(document.getElementById('cfgM2').value) || 0,
-      precoCorda: parseFloat(document.getElementById('cfgCorda').value) || 0,
-      gomosPorMetro: parseFloat(document.getElementById('cfgGomos').value) || 0,
-      metrosPorGancho: parseFloat(document.getElementById('cfgEspacGancho').value) || 0.35,
-      precoGanchoZinc: parseFloat(document.getElementById('cfgGanchoZinc').value) || 0,
-      precoGanchoInox: parseFloat(document.getElementById('cfgGanchoInox').value) || 0,
-      precoPU: parseFloat(document.getElementById('cfgPU').value) || 0
+      precoM2: toNum(document.getElementById('cfgM2').value) || 0,
+      precoCorda: toNum(document.getElementById('cfgCorda').value) || 0,
+      gomosPorMetro: toNum(document.getElementById('cfgGomos').value) || 0,
+      metrosPorGancho: toNum(document.getElementById('cfgEspacGancho').value) || 0.35,
+      precoGanchoZinc: toNum(document.getElementById('cfgGanchoZinc').value) || 0,
+      precoGanchoInox: toNum(document.getElementById('cfgGanchoInox').value) || 0,
+      precoPU: toNum(document.getElementById('cfgPU').value) || 0
     };
     saveCfg(cfg);
     renderAll();
@@ -386,8 +389,8 @@ function removeFace(grupoId, faceId){
 
 // Área e gomos (corte da rede) são sempre por face — cada face tem sua própria rede.
 function calcFaceInfo(f){
-  const L = parseFloat(f.largura);
-  const A = parseFloat(f.altura);
+  const L = toNum(f.largura);
+  const A = toNum(f.altura);
   if(!L || !A) return null;
   const area = L*A;
   const gomosLargura = Math.ceil(L * cfg.gomosPorMetro);
@@ -402,7 +405,7 @@ function calcFaceInfo(f){
 // Numa janela (1 face só), essa conta cai exatamente na fórmula antiga: 2×(L+A).
 function calcGrupo(g){
   const faces = g.faces
-    .map(f=>({L: parseFloat(f.largura), A: parseFloat(f.altura)}))
+    .map(f=>({L: toNum(f.largura), A: toNum(f.altura)}))
     .filter(x=> x.L && x.A);
   if(faces.length===0) return null;
 
@@ -444,11 +447,11 @@ function renderStructure(){
           <div class="row2">
             <div>
               <label>Largura (m)</label>
-              <input type="number" step="0.01" inputmode="decimal" value="${f.largura}" data-field="largura" data-gid="${g.id}" data-fid="${f.id}">
+              <input type="text" inputmode="decimal" value="${f.largura}" data-field="largura" data-gid="${g.id}" data-fid="${f.id}">
             </div>
             <div>
               <label>Altura (m)</label>
-              <input type="number" step="0.01" inputmode="decimal" value="${f.altura}" data-field="altura" data-gid="${g.id}" data-fid="${f.id}">
+              <input type="text" inputmode="decimal" value="${f.altura}" data-field="altura" data-gid="${g.id}" data-fid="${f.id}">
             </div>
           </div>
           <div class="item-result" id="res_${g.id}_${f.id}"></div>
