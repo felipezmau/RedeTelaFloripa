@@ -253,10 +253,10 @@
     </div>
   </div>
 
-  <button class="whatsapp-btn" id="btnZap">📲 Enviar orçamento pelo WhatsApp</button>
+  <button class="whatsapp-btn" id="btnZap">&#x1F4F2; Enviar orçamento pelo WhatsApp</button>
 
   <div class="card" id="configCard">
-    <h2 id="configToggle">⚙️ Parâmetros (preços e padrões) <span class="caret">▾</span></h2>
+    <h2 id="configToggle">&#x2699;&#xFE0F; Parâmetros (preços e padrões) <span class="caret">&#x25BE;</span></h2>
     <div class="collapsible-body">
       <div class="config-grid">
         <div>
@@ -443,7 +443,7 @@ function renderStructure(){
       const podeRemoverFace = g.tipo==='varanda' && g.faces.length>1;
       facesHtml += `
         <div class="face">
-          ${g.tipo==='varanda' ? `<div class="face-label"><span>Face ${idx+1}</span>${podeRemoverFace ? `<button class="remove-btn" data-removeface="${g.id}:${f.id}">✕</button>` : ''}</div>` : ''}
+          ${g.tipo==='varanda' ? `<div class="face-label"><span>Face ${idx+1}</span>${podeRemoverFace ? `<button class="remove-btn" data-removeface="${g.id}:${f.id}">&#x2715;</button>` : ''}</div>` : ''}
           <div class="row2">
             <div>
               <label>Largura (m)</label>
@@ -462,7 +462,7 @@ function renderStructure(){
       <div class="grupo-head">
         <span class="tag">${g.tipo === 'varanda' ? 'Varanda' : 'Janela'}</span>
         <input type="text" value="${g.nome}" data-nome="${g.id}">
-        <button class="remove-btn" data-removegrupo="${g.id}">✕</button>
+        <button class="remove-btn" data-removegrupo="${g.id}">&#x2715;</button>
       </div>
       ${facesHtml}
       ${g.tipo==='varanda' ? `<button class="add-face-btn" data-addface="${g.id}">+ adicionar face desta varanda</button>` : ''}
@@ -576,32 +576,45 @@ document.getElementById('btnZap').addEventListener('click', ()=>{
   const inoxExtra = ganchosGeral * (cfg.precoGanchoInox - cfg.precoGanchoZinc);
   const puExtra = ganchosGeral * cfg.precoPU;
 
+  // Emojis escritos como \u{...} (código Unicode em ASCII puro), não como caractere bruto no
+  // arquivo. Assim eles não dependem da codificação com que o arquivo foi salvo/commitado —
+  // se o caractere bruto for salvo com encoding errado em algum editor, ele vira "?"; o
+  // escape em ASCII nunca quebra.
+  const E_MONEY = '\u{1F4B0}';
+  const E_CHECK = '\u{2705}';
+  const E_HOOK  = '\u{1F529}';
+  const E_TEST  = '\u{1F9EA}';
+  const E_PAINT = '\u{1F3A8}';
+  const E_PIN   = '\u{1F4CC}';
+  const E_WARN  = '\u{26A0}\u{FE0F}';
+  const E_HANDS = '\u{1F64C}';
+
   const msg =
 `SEGUE ORÇAMENTO:
 
 Instalação padrão
-💰 *R$ ${fmt(totalGeral)}*
+${E_MONEY} *R$ ${fmt(totalGeral)}*
 >> Forma de pagamento: PIX com 5% de desconto ou cartão via link de pagamento
 ----------------
 O QUE INCLUI?
-✅ Rede 30/21 (21 fios / 30mm torcido), 2,2mm, malha 5x5 (padrão)
-✅ 100% polietileno de alta densidade virgem
-✅ Tratamento Anti-UV e Anti-Oxidante (evita o apodrecimento da rede)
-✅ Ganchos zincados
-✅ Buchas 8mm com flange
-✅ 3 anos de garantia
+${E_CHECK} Rede 30/21 (21 fios / 30mm torcido), 2,2mm, malha 5x5 (padrão)
+${E_CHECK} 100% polietileno de alta densidade virgem
+${E_CHECK} Tratamento Anti-UV e Anti-Oxidante (evita o apodrecimento da rede)
+${E_CHECK} Ganchos zincados
+${E_CHECK} Buchas 8mm com flange
+${E_CHECK} 3 anos de garantia
 ----------------
 OPCIONAIS
-🔩 Ganchos em inox: + R$ ${fmt(inoxExtra)}
-🧪 Resina PU nas buchas (caso seja obrigatório no condomínio): + R$ ${fmt(puExtra)}
+${E_HOOK} Ganchos em inox: + R$ ${fmt(inoxExtra)}
+${E_TEST} Resina PU nas buchas (caso seja obrigatório no condomínio): + R$ ${fmt(puExtra)}
 _A resina acrescenta uma proteção e resistência a mais na ancoragem_
 ----------------
 OBSERVAÇÕES
-🎨 Cores disponíveis: branca ou preta (sob consulta)
-📌 Orçamento válido por 30 dias, sujeito a conferência da medida no local
-⚠️ Valores sujeitos a variação de 5 a 10% pra mais ou menos, conforme aferição da medida final no dia da instalação
+${E_PAINT} Cores disponíveis: branca ou preta (sob consulta)
+${E_PIN} Orçamento válido por 30 dias, sujeito a conferência da medida no local
+${E_WARN} Valores sujeitos a variação de 5 a 10% pra mais ou menos, conforme aferição da medida final no dia da instalação
 ----------------
-Qualquer dúvida, seguimos por aqui! 🙌`;
+Qualquer dúvida, seguimos por aqui! ${E_HANDS}`;
 
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
