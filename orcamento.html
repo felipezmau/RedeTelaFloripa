@@ -151,6 +151,26 @@
     margin-top:8px;
   }
   .add-row{display:flex;gap:8px;margin-top:2px;}
+  .gancho-toggle{
+    display:flex;
+    gap:8px;
+  }
+  .gancho-opcao{
+    flex:1;
+    padding:10px;
+    border:2px solid var(--borda);
+    background:#fbfdfc;
+    color:var(--texto-suave);
+    border-radius:10px;
+    font-size:.85rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .gancho-opcao.ativo{
+    border-color:var(--verde);
+    background:#eef8f4;
+    color:var(--verde-esc);
+  }
   .add-btn{
     flex:1;
     padding:11px;
@@ -262,8 +282,24 @@
     <button class="add-btn" id="addVaranda">+ Varanda</button>
   </div>
 
+  <div class="card" id="ganchoToggleCard">
+    <h2 style="margin-bottom:8px;">Gancho deste orçamento</h2>
+    <div class="gancho-toggle">
+      <button class="gancho-opcao ativo" id="btnGanchoZinc" data-tipo="zincado">Zincado (padrão)</button>
+      <button class="gancho-opcao" id="btnGanchoInox" data-tipo="inox">Inox</button>
+    </div>
+  </div>
+
+  <div class="card" id="puToggleCard">
+    <h2 style="margin-bottom:8px;">Resina PU nas buchas</h2>
+    <div class="gancho-toggle">
+      <button class="gancho-opcao ativo" id="btnPUNao" data-pu="nao">Não incluída</button>
+      <button class="gancho-opcao" id="btnPUSim" data-pu="sim">Incluída no total</button>
+    </div>
+  </div>
+
   <div class="total-box">
-    <div class="sub">TOTAL DO ORÇAMENTO (padrão, gancho zincado)</div>
+    <div class="sub" id="totalLabel">TOTAL DO ORÇAMENTO (gancho zincado)</div>
     <div class="valor" id="totalGeral">R$ 0,00</div>
     <div class="opcionais">
       <div id="linhaInox">Opcional ganchos inox: —</div>
@@ -366,6 +402,29 @@ document.getElementById('configToggle').addEventListener('click', ()=>{
 });
 
 let grupos = [];
+let tipoGancho = 'zincado'; // 'zincado' (padrão) ou 'inox' — define o gancho cobrado no total principal
+
+document.getElementById('btnGanchoZinc').addEventListener('click', ()=> setTipoGancho('zincado'));
+document.getElementById('btnGanchoInox').addEventListener('click', ()=> setTipoGancho('inox'));
+
+function setTipoGancho(tipo){
+  tipoGancho = tipo;
+  document.getElementById('btnGanchoZinc').classList.toggle('ativo', tipo==='zincado');
+  document.getElementById('btnGanchoInox').classList.toggle('ativo', tipo==='inox');
+  updateResults();
+}
+
+let puIncluida = false; // false = fica só como opcional sugerido; true = entra no total principal
+
+document.getElementById('btnPUNao').addEventListener('click', ()=> setPUIncluida(false));
+document.getElementById('btnPUSim').addEventListener('click', ()=> setPUIncluida(true));
+
+function setPUIncluida(incluida){
+  puIncluida = incluida;
+  document.getElementById('btnPUNao').classList.toggle('ativo', !incluida);
+  document.getElementById('btnPUSim').classList.toggle('ativo', incluida);
+  updateResults();
+}
 let seqGrupo = 0;
 let seqFace = 0;
 
@@ -436,7 +495,8 @@ function calcGrupo(g){
   const valorArea = somaAreas * cfg.precoM2;
   const valorCorda = perimetro * cfg.precoCorda;
   const ganchosQtd = Math.ceil(perimetro / cfg.metrosPorGancho);
-  const valorGanchos = ganchosQtd * cfg.precoGanchoZinc;
+  const precoGanchoAtivo = tipoGancho === 'inox' ? cfg.precoGanchoInox : cfg.precoGanchoZinc;
+  const valorGanchos = ganchosQtd * precoGanchoAtivo;
   const total = valorArea + valorCorda + valorGanchos;
 
   return {somaAreas, somaLarguras, alturaRef, perimetro, valorArea, valorCorda, ganchosQtd, valorGanchos, total};
@@ -558,16 +618,30 @@ function updateResults(){
     }
   });
 
-  document.getElementById('totalGeral').textContent = 'R$ ' + fmt(totalGeral);
-
-  const inoxExtra = ganchosGeral * (cfg.precoGanchoInox - cfg.precoGanchoZinc);
   const puExtra = ganchosGeral * cfg.precoPU;
-  document.getElementById('linhaInox').textContent = ganchosGeral
-    ? `Opcional ganchos inox (${ganchosGeral} un): + R$ ${fmt(inoxExtra)}`
-    : 'Opcional ganchos inox: —';
-  document.getElementById('linhaPU').textContent = ganchosGeral
-    ? `Opcional resina PU (${ganchosGeral} un): + R$ ${fmt(puExtra)}`
-    : 'Opcional resina PU: —';
+  if(puIncluida) totalGeral += puExtra;
+
+  document.getElementById('totalGeral').textContent = 'R$ ' + fmt(totalGeral);
+  document.getElementById('totalLabel').textContent =
+    (tipoGancho === 'inox' ? 'TOTAL DO ORÇAMENTO (gancho inox' : 'TOTAL DO ORÇAMENTO (gancho zincado')
+    + (puIncluida ? ' + PU)' : ')');
+
+  document.getElementById('linhaPU').textContent = !ganchosGeral
+    ? 'Opcional resina PU: —'
+    : puIncluida
+      ? `Resina PU já inclusa no total acima (+ R$ ${fmt(puExtra)})`
+      : `Opcional resina PU (${ganchosGeral} un): + R$ ${fmt(puExtra)}`;
+
+  const linhaInoxEl = document.getElementById('linhaInox');
+  if(tipoGancho === 'inox'){
+    // inox já é o gancho cobrado no total — não faz sentido oferecer ele "opcional" de novo
+    linhaInoxEl.textContent = ganchosGeral ? 'Ganchos inox já inclusos no total acima' : '—';
+  } else {
+    const inoxExtra = ganchosGeral * (cfg.precoGanchoInox - cfg.precoGanchoZinc);
+    linhaInoxEl.textContent = ganchosGeral
+      ? `Opcional trocar p/ ganchos inox (${ganchosGeral} un): + R$ ${fmt(inoxExtra)}`
+      : 'Opcional ganchos inox: —';
+  }
 }
 
 document.getElementById('addJanela').addEventListener('click', addJanela);
@@ -592,8 +666,19 @@ document.getElementById('btnZap').addEventListener('click', ()=>{
     return;
   }
 
+  const ganchoLabel = tipoGancho === 'inox' ? 'Ganchos em inox' : 'Ganchos zincados';
   const inoxExtra = ganchosGeral * (cfg.precoGanchoInox - cfg.precoGanchoZinc);
   const puExtra = ganchosGeral * cfg.precoPU;
+  if(puIncluida) totalGeral += puExtra;
+
+  const puBullet = puIncluida ? '\n- Resina PU nas buchas' : '';
+
+  const opcionaisLinhas = [];
+  if(tipoGancho !== 'inox') opcionaisLinhas.push(`- Ganchos em inox: + R$ ${fmt(inoxExtra)}`);
+  if(!puIncluida) opcionaisLinhas.push(`- Resina PU nas buchas (caso seja obrigatório no condomínio): + R$ ${fmt(puExtra)}\n_A resina acrescenta uma proteção e resistência a mais na ancoragem_`);
+  const blocoOpcionais = opcionaisLinhas.length
+    ? `\n----------------\nOPCIONAIS\n${opcionaisLinhas.join('\n')}`
+    : '';
 
   const msg =
 `SEGUE ORÇAMENTO:
@@ -606,14 +691,9 @@ O QUE INCLUI?
 - Rede 30/21 (21 fios / 30mm torcido), 2,2mm, malha 5x5 (padrão)
 - 100% polietileno de alta densidade virgem
 - Tratamento Anti-UV e Anti-Oxidante (evita o apodrecimento da rede)
-- Ganchos zincados
+- ${ganchoLabel}
 - Buchas 8mm com flange
-- 3 anos de garantia
-----------------
-OPCIONAIS
-- Ganchos em inox: + R$ ${fmt(inoxExtra)}
-- Resina PU nas buchas (caso seja obrigatório no condomínio): + R$ ${fmt(puExtra)}
-_A resina acrescenta uma proteção e resistência a mais na ancoragem_
+- 3 anos de garantia${puBullet}${blocoOpcionais}
 ----------------
 OBSERVAÇÕES
 - Cores disponíveis: branca ou preta (sob consulta)
@@ -644,8 +724,10 @@ function gerarPDF(){
     alert('Preencha largura e altura de pelo menos um ambiente.');
     return;
   }
+  const ganchoLabel = tipoGancho === 'inox' ? 'Ganchos em inox' : 'Ganchos zincados';
   const inoxExtra = ganchosGeral * (cfg.precoGanchoInox - cfg.precoGanchoZinc);
   const puExtra = ganchosGeral * cfg.precoPU;
+  if(puIncluida) totalGeral += puExtra;
   const cliente = document.getElementById('cliente').value.trim();
 
   const { jsPDF } = window.jspdf;
@@ -763,16 +845,25 @@ function gerarPDF(){
     bullet('Rede 30/21 (21 fios / 30mm torcido), 2,2mm, malha 5x5 (padrão)');
     bullet('100% polietileno de alta densidade virgem');
     bullet('Tratamento Anti-UV e Anti-Oxidante (evita o apodrecimento da rede)');
-    bullet('Ganchos zincados');
+    bullet(ganchoLabel);
     bullet('Buchas 8mm com flange');
     bullet('3 anos de garantia');
+    if(puIncluida) bullet('Resina PU nas buchas');
     y += 4;
 
-    secao('OPCIONAIS');
-    bullet(`Ganchos em inox: + R$ ${fmt(inoxExtra)}`, {bold:true});
-    bullet(`Resina PU nas buchas (caso seja obrigatório no condomínio): + R$ ${fmt(puExtra)}`, {bold:true});
-    nota('A resina acrescenta uma proteção e resistência a mais na ancoragem.');
-    y += 3;
+    const temOpcionalInox = tipoGancho !== 'inox';
+    const temOpcionalPU = !puIncluida;
+    if(temOpcionalInox || temOpcionalPU){
+      secao('OPCIONAIS');
+      if(temOpcionalInox){
+        bullet(`Ganchos em inox: + R$ ${fmt(inoxExtra)}`, {bold:true});
+      }
+      if(temOpcionalPU){
+        bullet(`Resina PU nas buchas (caso seja obrigatório no condomínio): + R$ ${fmt(puExtra)}`, {bold:true});
+        nota('A resina acrescenta uma proteção e resistência a mais na ancoragem.');
+      }
+      y += 3;
+    }
 
     secao('OBSERVAÇÕES');
     bullet('Cores disponíveis: branca ou preta (sob consulta)');
