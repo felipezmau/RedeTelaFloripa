@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18308990966"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18308990966');
+</script>
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') { window.location = url; }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-18308990966/fBfTCInphNAcEPaPtJpE',
+      'value': 1.0,
+      'currency': 'BRL',
+      'event_callback': callback
+  });
+  return false;
+}
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Orçamento — TelaFloripa | Telas e Redes de Proteção</title>
+<meta name="description" content="Simule o valor da rede de proteção para sua janela ou varanda em segundos e feche pelo WhatsApp. Telas e redes certificadas (INMETRO/ISO 9002) em Florianópolis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ocean:#2426B8;
+    --ocean-deep:#00009E;
+    --paper:#F3F6F5;
+    --coral:#E8543E;
+    --coral-dark:#C43F2C;
+    --rope:#C9A876;
+    --ink:#16282E;
+    --ink-soft:#4A5D62;
+    --line:rgba(0,0,158,0.14);
+    --whatsapp:#25D366;
+    --radius:16px;
+    --shadow:0 16px 40px rgba(9,40,50,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    transition:padding-bottom .15s ease;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:700; letter-spacing:-0.01em; color:var(--ocean-deep);}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+  section{padding:56px 0;}
+  @media (max-width:640px){ section{padding:36px 0;} }
+  input{font-family:'Inter', sans-serif;}
+
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(243,246,245,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; gap:16px;}
+  .logo-mark{height:34px; width:auto; flex-shrink:0;}
+  .nav-cta{
+    background:var(--whatsapp); color:#fff; padding:10px 18px; border-radius:999px;
+    font-weight:600; font-size:14px; display:flex; align-items:center; gap:6px; white-space:nowrap;
+  }
+
+  /* ---------- Hero + simulador ---------- */
+  .hero-sim{
+    position:relative; overflow:hidden;
+    background:linear-gradient(160deg, var(--ocean) 0%, var(--ocean-deep) 100%);
+    color:var(--paper);
+    padding:36px 0 40px;
+  }
+  .sim-head{max-width:580px; margin:0 auto 20px; text-align:center; position:relative; z-index:2;}
+  .sim-head h1{color:#fff; font-size:clamp(24px,3.6vw,32px); line-height:1.2;}
+  .sim-head p{color:rgba(243,246,245,0.85); font-size:15px; margin-top:10px;}
+
+  .calc-box{
+    position:relative; z-index:2;
+    background:#fff; border-radius:20px; padding:22px; color:var(--ink);
+    box-shadow:var(--shadow);
+    max-width:540px; margin:0 auto;
+  }
+  @media (max-width:600px){ .calc-box{padding:16px;} }
+
+  .lead-row{display:flex; gap:8px; margin-bottom:14px;}
+  .lead-row > div{flex:1;}
+  label{display:block; font-size:11px; color:var(--ink-soft); margin-bottom:2px;}
+  input[type=text]{
+    width:100%; box-sizing:border-box; padding:8px 10px; border:1px solid var(--line);
+    border-radius:9px; font-size:15px; background:var(--paper); color:var(--ink);
+  }
+  input:focus{outline:2px solid var(--ocean-deep); border-color:var(--ocean-deep);}
+
+  .item{
+    position:relative;
+    border:2px solid var(--line); border-radius:14px; padding:14px;
+    margin-bottom:10px; background:var(--paper);
+  }
+  .item.varanda{border-color:rgba(232,84,62,0.3); background:rgba(232,84,62,0.04);}
+  .item-excluir{
+    position:absolute; top:10px; right:12px; background:none; border:none;
+    color:var(--coral-dark); cursor:pointer; font-size:12px; font-weight:600;
+    display:flex; align-items:center; gap:4px;
+  }
+
+  .tipo-pergunta{font-size:13px; color:var(--ink-soft); margin-bottom:10px; font-weight:600;}
+  .tipo-escolha{display:flex; gap:10px;}
+  .tipo-btn{
+    flex:1; padding:16px 10px; border-radius:12px; background:#fff;
+    font-family:'Space Grotesk'; font-weight:700; font-size:14px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .tipo-btn.janela{border:2px solid rgba(0,0,158,0.18); color:var(--ocean-deep);}
+  .tipo-btn.varanda{border:2px solid rgba(232,84,62,0.25); color:var(--coral-dark);}
+
+  .item-body{padding-right:76px;}
+  .item-head{display:flex; align-items:center; gap:8px; margin-bottom:8px;}
+  .item-tag{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:'IBM Plex Mono'; font-size:11px; font-weight:600; text-transform:uppercase;
+    letter-spacing:.03em; padding:4px 9px; border-radius:6px; white-space:nowrap;
+  }
+  .item-tag.janela{color:var(--ocean-deep); background:rgba(0,0,158,0.08);}
+  .item-tag.varanda{color:var(--coral-dark); background:rgba(232,84,62,0.1);}
+  .item-nome{
+    flex:1; font-family:'Inter'; font-weight:600; font-size:11px; color:var(--ink);
+    border:none; background:#fff; padding:3px 2px; min-width:0;
+  }
+
+  .info-wrap{position:relative; display:inline-flex;}
+  .info-icon{
+    width:18px; height:18px; border-radius:50%; background:var(--coral); color:#fff;
+    font-size:11px; font-weight:700; border:none; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+  }
+  .tooltip{
+    position:absolute; bottom:calc(100% + 8px); left:0; width:230px;
+    background:var(--ink); color:#fff; font-size:12px; font-weight:400; line-height:1.45;
+    padding:10px 12px; border-radius:10px; z-index:5; display:none;
+  }
+  .info-wrap.aberto .tooltip{display:block;}
+
+  .face{border-top:1px dashed var(--line); padding-top:10px; margin-top:8px;}
+  .face:first-of-type{border-top:none; margin-top:0; padding-top:0;}
+  .face-label{font-size:11px; color:var(--ink-soft); display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;}
+  .face-remover{background:none; border:none; color:var(--coral-dark); cursor:pointer; font-size:12px;}
+  .row2{display:flex; gap:6px;}
+  .row2 > div{flex:1;}
+  .add-face-btn{
+    width:100%; padding:8px; border:1px dashed var(--coral); background:rgba(232,84,62,0.06);
+    color:var(--coral-dark); border-radius:9px; font-size:12px; font-weight:600; cursor:pointer; margin-top:8px;
+  }
+
+  .add-item-btn{
+    width:100%; padding:13px; border:none; color:#fff; border-radius:12px;
+    font-size:14px; font-weight:700; cursor:pointer; margin:4px 0 6px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:#0752FC;
+  }
+
+  .resultado{margin-top:12px; padding:18px; border-radius:14px; background:var(--ocean-deep); color:#fff; text-align:center;}
+  .badge-promo{
+    display:inline-block; background:var(--coral); color:#fff; font-family:'IBM Plex Mono';
+    font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
+    padding:4px 12px; border-radius:999px; margin-bottom:10px;
+  }
+  .valor-riscado{text-decoration:line-through; opacity:.6; font-size:15px;}
+  .valor-total{font-family:'Space Grotesk'; font-size:28px; font-weight:700; margin-top:2px;}
+  .resultado-sub{font-size:12px; color:rgba(243,246,245,0.7); margin-top:4px;}
+  .resultado-nota{text-align:center; font-size:11px; color:var(--ink-soft); margin-top:8px;}
+
+  .btn-zap{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    padding:14px 24px; border-radius:999px; font-weight:600; font-size:15px;
+    border:none; cursor:pointer; width:100%; margin-top:14px;
+    background:var(--whatsapp); color:#fff; box-shadow:0 10px 26px rgba(37,211,102,0.35);
+  }
+  .sim-nota{text-align:center; font-size:10px; color:var(--ink-soft); margin-top:10px;}
+
+  .link-fotos{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 16px; border-radius:12px; font-weight:600; font-size:13px;
+    border:1px dashed rgba(0,0,158,0.3); background:rgba(0,0,158,0.04);
+    color:var(--ocean-deep); width:100%; margin-top:10px; box-sizing:border-box;
+  }
+
+  /* ---------- Conteúdo institucional ---------- */
+  .section-head{max-width:640px;}
+  .eyebrow{font-family:'IBM Plex Mono'; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--coral); margin-bottom:12px;}
+  .section-head h2{font-size:clamp(26px,3.6vw,36px);}
+  .section-head p{color:var(--ink-soft); margin-top:12px; font-size:16.5px;}
+
+  .benefits-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px;}
+  @media (max-width:800px){ .benefits-grid{grid-template-columns:1fr;} }
+  .benefit-card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:30px 26px;}
+  .benefit-icon{width:44px; height:44px; border-radius:12px; background:rgba(232,84,62,0.1); display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
+  .benefit-card h3{font-size:17px;}
+  .benefit-card p{color:var(--ink-soft); font-size:14.5px; margin-top:8px;}
+
+  .spec-grid{display:grid; grid-template-columns:0.8fr 1fr 1fr; gap:16px; margin-top:32px;}
+  @media (max-width:800px){ .spec-grid{grid-template-columns:1fr;} }
+  .spec-img{width:100%; height:100%; min-height:220px; object-fit:cover; border-radius:var(--radius);}
+  .spec-card{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:30px 26px;}
+  .spec-card h3{font-size:17px; margin-bottom:16px;}
+  .spec-list{list-style:none; display:flex; flex-direction:column; gap:11px;}
+  .spec-list li{position:relative; padding-left:24px; color:var(--ink-soft); font-size:14.5px; line-height:1.5;}
+  .spec-list li::before{content:"✓"; position:absolute; left:0; color:var(--coral); font-weight:700;}
+  .spec-note{margin-top:18px; font-size:13px; color:var(--ink-soft); font-style:italic;}
+
+  .como-topo{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;}
+  @media (max-width:700px){ .como-topo{grid-template-columns:1fr;} }
+  .como-img{width:100%; height:220px; object-fit:cover; border-radius:var(--radius);}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px;}
+  @media (max-width:700px){ .steps{grid-template-columns:1fr;} }
+  .step-num{font-family:'IBM Plex Mono'; font-size:13px; color:var(--rope); font-weight:600; border-bottom:2px solid var(--rope); display:inline-block; padding-bottom:6px; margin-bottom:16px;}
+  .step h3{font-size:18px; color:var(--ink); margin-bottom:8px;}
+  .step p{color:var(--ink-soft); font-size:14.5px;}
+
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    padding:22px 0; display:flex; justify-content:space-between; align-items:center; gap:16px;
+    font-weight:600; font-size:16px; color:var(--ocean-deep); font-family:'Inter';
+  }
+  .faq-icon{font-size:20px; color:var(--coral); flex-shrink:0;}
+  .faq-a{display:none; padding-bottom:22px;}
+  .faq-item.open .faq-a{display:block;}
+  .faq-a p{color:var(--ink-soft); font-size:15px; max-width:640px; line-height:1.6;}
+
+  footer{padding:48px 24px 100px; text-align:center; color:var(--ink-soft); font-size:13.5px;}
+
+  .float-wa{
+    position:fixed; bottom:22px; right:22px; z-index:100;
+    width:58px; height:58px; border-radius:50%; background:var(--whatsapp);
+    display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(37,211,102,0.45);
+    animation:pulseWa 2.4s infinite;
+  }
+  @keyframes pulseWa{
+    0%{box-shadow:0 8px 24px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0.5);}
+    70%{box-shadow:0 8px 24px rgba(37,211,102,0.4), 0 0 0 14px rgba(37,211,102,0);}
+    100%{box-shadow:0 8px 24px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0);}
+  }
+  .float-bar{
+    position:fixed; left:0; right:0; bottom:0; z-index:90;
+    background:var(--ocean-deep); color:#fff; padding:14px 20px;
+    display:none; align-items:center; justify-content:space-between; gap:16px;
+    box-shadow:0 -8px 24px rgba(0,0,0,0.18);
+  }
+  .float-bar.show{display:flex;}
+  .float-bar-label{font-size:11px; color:rgba(243,246,245,0.7); text-transform:uppercase; letter-spacing:.05em; font-family:'IBM Plex Mono'; display:flex; align-items:center; gap:6px;}
+  .float-bar-badge{background:var(--coral); color:#fff; font-family:'IBM Plex Mono'; font-size:9px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; padding:2px 7px; border-radius:999px;}
+  .float-bar-valores{display:flex; align-items:baseline; gap:8px;}
+  .float-bar-riscado{text-decoration:line-through; opacity:.6; font-size:13px;}
+  .float-bar-total{font-family:'Space Grotesk'; font-size:22px; font-weight:700;}
+  .float-bar-btn{background:var(--whatsapp); color:#fff; border:none; padding:12px 20px; border-radius:999px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; cursor:pointer; white-space:nowrap;}
+
+  @media (prefers-reduced-motion: reduce){ .float-wa{animation:none;} }
+</style>
+</head>
+<body>
+
+<div id="clickCatcher"></div>
+
+<header>
+  <div class="nav wrap" style="max-width:1100px; padding-left:0; padding-right:0;">
+    <svg class="logo-mark" viewBox="0 0 1320.48 278.2" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#00009e" stroke="#fff" stroke-miterlimit="10" stroke-width=".4" d="M164.92,244.71c1.19-3.5,1.3-6.62,1.11-10.49l20.85,8.05c-1.04,11.61-7.25,22.21-16.23,28.38-10.26,7.04-23.3,9.59-34.82,5.13l-95.74-37.15C16.71,229.56.43,206.73.38,181.52l-.18-96.09c-.02-12.92,6.46-24.69,16.19-31.68,11.13-8,24.9-9.45,37.28-4.63l18.23,7.11.02-18.05c.02-12.15,6.39-23.42,15.66-30.13,10.38-7.5,23.94-10.21,35.89-5.56l96.84,37.75c23.17,9.03,38.3,32.5,38.33,57.21l.09,95.75c.01,12.94-6.86,24.74-16.6,31.55-11.49,8.03-25.18,8.86-37.74,3.99l-92.24-35.83c-19.29-7.49-40.74-4.08-57.6,7.4-4.08,2.78-6.83,6.26-6.53,11.32.26,4.36,2.86,8.73,7.42,10.5l86.06,33.44c9.59,3.73,20.07-1.02,23.42-10.87ZM204.31,77.94c4.14-2.83,6.92-6.25,6.62-11.31-.24-4.19-2.66-8.7-7.09-10.42L116.58,22.37c-5.7-2.21-12.29-.58-16.8,2.83s-6.91,8.57-6.91,14.49v24.68s52.51,20.43,52.51,20.43c19.72,7.67,41.4,5.15,58.93-6.85ZM92.91,120.62c.96,26.69,18.05,49.33,42.75,58.89l30.45,11.78-.05-32.29c-.04-25.78-15.97-49.72-40.15-59.14l-79.93-31.16c-3.03-1.18-6.36-1.33-9.32-.97-9.8,1.22-15.5,9.36-15.49,18.9l.06,88.4c0,4.94,3.06,8.72,6.68,10.63,4.87,2.57,8.99.98,13.2-1.54,19.3-11.55,30.85-32.1,30.83-54.73l-.02-30.22,20.98,8.16.04,13.3ZM212.93,209.45c2.29.89,4.39,1.11,6.8,1.16,9.33.2,17.91-7.25,17.92-16.99l.03-91.21c0-4.68-3.53-8.38-6.81-9.97-4.8-2.33-8.69-.97-12.76,1.48-18.21,10.97-30.8,29.95-30.87,51.55l-.18,53.96,25.87,10.02Z"/>
+      <path fill="#00009e" d="M316.95,76.57c0-2.09,1.67-3.97,3.97-3.97h62.52c25.09,0,45.58,20.28,45.58,45.17,0,19.24-12.76,34.71-30.95,42.03l28.65,53.11c1.46,2.72,0,6.06-3.55,6.06h-27.81c-1.67,0-2.93-1.05-3.35-1.88l-27.81-55.41h-14.43v53.32c0,2.09-1.88,3.97-3.97,3.97h-24.88c-2.3,0-3.97-1.88-3.97-3.97V76.57ZM380.73,135.12c8.57,0,15.89-7.95,15.89-16.73s-7.32-15.89-15.89-15.89h-30.95v32.62h30.95Z"/>
+      <path fill="#00009e" d="M457.06,76.57c0-2.09,1.67-3.97,3.97-3.97h86.57c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-57.92v25.93h47.68c2.09,0,3.97,1.88,3.97,3.97v22.79c0,2.3-1.88,3.97-3.97,3.97h-47.68v28.23h57.92c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-86.57c-2.3,0-3.97-1.88-3.97-3.97V76.57Z"/>
+      <path fill="#00009e" d="M579.6,76.57c0-2.09,1.67-3.97,3.76-3.97h51.02c40.36,0,73.4,32.83,73.4,72.98s-33.04,73.4-73.4,73.4h-51.02c-2.09,0-3.76-1.88-3.76-3.97V76.57ZM632.3,188.02c23.63,0,40.78-18.61,40.78-42.45s-17.15-42.24-40.78-42.24h-20.07v84.69h20.07Z"/>
+      <path fill="#00009e" d="M733.3,76.57c0-2.09,1.67-3.97,3.97-3.97h86.57c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-57.92v25.93h47.68c2.09,0,3.97,1.88,3.97,3.97v22.79c0,2.3-1.88,3.97-3.97,3.97h-47.68v28.23h57.92c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-86.57c-2.3,0-3.97-1.88-3.97-3.97V76.57Z"/>
+      <path fill="#00009e" d="M874.66,103.33h-29.9c-2.3,0-3.97-1.88-3.97-3.97v-22.79c0-2.09,1.67-3.97,3.97-3.97h92.84c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-29.9v111.66c0,2.09-1.88,3.97-3.97,3.97h-25.09c-2.09,0-3.97-1.88-3.97-3.97v-111.66Z"/>
+      <path fill="#00009e" d="M962.48,76.57c0-2.09,1.67-3.97,3.97-3.97h86.57c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-57.92v25.93h47.68c2.09,0,3.97,1.88,3.97,3.97v22.79c0,2.3-1.88,3.97-3.97,3.97h-47.68v28.23h57.92c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-86.57c-2.3,0-3.97-1.88-3.97-3.97V76.57Z"/>
+      <path fill="#00009e" d="M1085.02,76.57c0-2.09,1.67-3.97,3.97-3.97h24.88c2.09,0,3.97,1.88,3.97,3.97v111.66h49.77c2.3,0,3.97,1.88,3.97,3.97v22.79c0,2.09-1.67,3.97-3.97,3.97h-78.62c-2.3,0-3.97-1.88-3.97-3.97V76.57Z"/>
+      <path fill="#00009e" d="M1179.96,213.53l65.45-140.73c.63-1.25,2.09-2.3,3.55-2.3h2.09c1.46,0,2.93,1.05,3.55,2.3l65.45,140.73c1.25,2.72-.42,5.44-3.55,5.44h-23.21c-3.76,0-5.44-1.25-7.32-5.23l-7.53-16.52h-56.88l-7.53,16.73c-1.05,2.51-3.35,5.02-7.53,5.02h-23c-3.14,0-4.81-2.72-3.55-5.44ZM1265.9,168.78l-15.89-34.5h-.21l-15.68,34.5h31.78Z"/>
+    </svg>
+    <a class="nav-cta" href="https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o" target="_blank" rel="noopener" onclick="return gtag_report_conversion(this.href);">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-3.9-7.1L21 3l-1.2 3.7A8.5 8.5 0 0 1 21 11.5Z"/></svg>
+      Falar no WhatsApp
+    </a>
+  </div>
+</header>
+
+<section class="hero-sim">
+  <div class="wrap">
+    <div class="sim-head">
+      <h1>Simulador de preço para instalação de rede de segurança</h1>
+      <p>Toque no número de ambientes, escolha o tamanho e veja o valor na hora.</p>
+    </div>
+
+    <div class="calc-box">
+      <div class="lead-row">
+        <div>
+          <label>Nome*</label>
+          <input type="text" id="leadNome" placeholder="Seu nome">
+        </div>
+        <div>
+          <label>Bairro da instalação*</label>
+          <input type="text" id="leadBairro" placeholder="Ex: Centro">
+        </div>
+      </div>
+
+      <div id="itens"></div>
+
+      <button class="add-item-btn" id="btnAddItem" type="button" style="display:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Adicionar janela ou varanda
+      </button>
+
+      <div id="resultadoWrap" style="display:none;">
+        <div class="resultado">
+          <span class="badge-promo" id="badgePromo" style="display:none;">Promoção</span>
+          <div class="valor-riscado" id="valorRiscado" style="display:none;"></div>
+          <div class="valor-total" id="valorTotal">R$ 0,00</div>
+          <div class="resultado-sub">+ 5% de desconto via Pix ou parcele em até 12x com link de pagamento.</div>
+        </div>
+        <p class="resultado-nota" id="notaPromo" style="display:none;">*promoção válida para simulações acima de R$ 200,00, por 10 dias</p>
+        <p class="resultado-nota" id="notaMinimo" style="display:none;">Valor mínimo de instalação aplicado a ambientes pequenos.</p>
+        <button class="btn-zap" id="btnZap" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-3.9-7.1L21 3l-1.2 3.7A8.5 8.5 0 0 1 21 11.5Z"/></svg>
+          Quero contratar pelo WhatsApp
+        </button>
+        <p class="sim-nota">Os valores são uma estimativa baseada nas medidas informadas.</p>
+      </div>
+
+      <a class="link-fotos" href="https://wa.me/5548988401081?text=Ol%C3%A1!%20N%C3%A3o%20sei%20as%20medidas%20certas%2C%20quero%20enviar%20fotos%20para%20um%20or%C3%A7amento" target="_blank" rel="noopener" onclick="return gtag_report_conversion(this.href);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00009E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+        Não sei as medidas, quero enviar fotos para orçamento
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="beneficios">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Por que nos escolher?</div>
+      <h2>Proteção de verdade, sem enrolação</h2>
+      <p>Trabalhamos com o essencial bem feito: tela e rede de material resistente, instalação rápida e um preço que você entende antes mesmo de agendar.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8543E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Segurança certificada</h3>
+        <p>Rede de polietileno de alta densidade, malha 5×5 cm, resistente a até 500 kg/m² — com certificação INMETRO e ISO 9002.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8543E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+        <h3>Agilidade real</h3>
+        <p>Simulação em segundos, instalação agendada no melhor horário pra você.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8543E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 15c0 1.1 1.1 2 2.5 2s2.5-.7 2.5-1.8-1-1.6-2.5-2-2.5-.9-2.5-2S10.6 9.5 12 9.5s2.5.7 2.5 1.7"/><path d="M12 7.5v1M12 15v1"/></svg></div>
+        <h3>Preço justo e transparente</h3>
+        <p>Um valor único por m², sem letra miúda: material, mão de obra e garantia inclusos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="especificacoes" style="background:#fff;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Ficha técnica</div>
+      <h2>Rigoroso padrão de qualidade</h2>
+    </div>
+    <div class="spec-grid">
+      <img class="spec-img" src="assets/instalador-1.jpg" width="900" height="968" loading="lazy" alt="Instalador fixando rede de proteção em varanda">
+      <div class="spec-card">
+        <h3>Material e resistência</h3>
+        <ul class="spec-list">
+          <li>Polietileno 100% virgem de alta densidade</li>
+          <li>Malha de 5 × 5 cm</li>
+          <li>Fio com 2,0 mm de espessura</li>
+          <li>Resistência a impacto de até 500 kg/m²</li>
+          <li>Dupla camada de proteção anti-UV</li>
+          <li>Tratamento antioxidante</li>
+          <li>Não retém água — alta resistência ao sol e à chuva</li>
+        </ul>
+      </div>
+      <div class="spec-card">
+        <h3>Certificações e qualidade</h3>
+        <ul class="spec-list">
+          <li>Certificação INMETRO</li>
+          <li>ISO 9002</li>
+          <li>Testada e aprovada pelo Instituto Falcão Bauer</li>
+        </ul>
+        <p class="spec-note">Produto fabricado conforme normas rigorosas de segurança e qualidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona">
+  <div class="wrap">
+    <div class="como-topo">
+      <div>
+        <div class="eyebrow">Como funciona</div>
+        <h2>Do orçamento à instalação</h2>
+      </div>
+      <img class="como-img" src="assets/instalador-2.jpg" width="900" height="892" loading="lazy" alt="Instalador da equipe fixando rede de proteção">
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Simule aqui em cima</h3>
+        <p>Escolha quantos ambientes e preencha as medidas — o valor aparece na hora.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Feche pelo WhatsApp</h3>
+        <p>Um clique envia a simulação pronta pra gente confirmar o orçamento final.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Agendamos a instalação</h3>
+        <p>Combinamos o melhor horário pra você, a gente chega, instala e testa a fixação na sua frente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="background:#fff;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Dúvidas frequentes</div>
+      <h2>Perguntas antes de chamar no WhatsApp</h2>
+    </div>
+    <div style="margin-top:32px;" id="faqList"></div>
+  </div>
+</section>
+
+<footer>
+  TelaFloripa · Telas e redes de proteção para janelas e varandas · Grande Florianópolis<br>
+  Atendimento: seg-sáb, 8h às 18h
+</footer>
+
+<a class="float-wa" href="https://wa.me/5548988401081?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20para%20rede%20de%20prote%C3%A7%C3%A3o" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" onclick="return gtag_report_conversion(this.href);">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm5.79 14.09c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.01-2.41.27-.29.58-.36.78-.36.19 0 .39 0 .55.01.18.01.42-.07.65.5.24.58.82 2.01.89 2.16.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.49-.14.13-.28.28-.12.55.16.27.71 1.17 1.52 1.9 1.05.94 1.93 1.23 2.2 1.37.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.87.27.13.45.2.51.31.07.12.07.66-.17 1.34Z"/></svg>
+</a>
+
+<div class="float-bar" id="floatBar">
+  <div>
+    <div class="float-bar-label">
+      <span>Total estimado</span>
+      <span class="float-bar-badge" id="floatBadge" style="display:none;">Promoção</span>
+    </div>
+    <div class="float-bar-valores">
+      <span class="float-bar-riscado" id="floatRiscado" style="display:none;"></span>
+      <div class="float-bar-total" id="floatTotal">R$ 0,00</div>
+    </div>
+  </div>
+  <button class="float-bar-btn" id="btnZapFloat" type="button">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-3.9-7.1L21 3l-1.2 3.7A8.5 8.5 0 0 1 21 11.5Z"/></svg>
+    Fechar no WhatsApp
+  </button>
+</div>
+
+<script>
+const PRECO_M2 = 69.90;
+const PRECO_M2_ORIGINAL = 80.00;
+const VALOR_MINIMO = 139.90;
+const PROMO_MINIMO = 200.00;
+const WHATSAPP_NUMERO = "5548988401081";
+
+const FAQS = [
+  {q:'O valor da simulação é o valor final?', a:'É uma estimativa bem próxima do real, calculada em cima das medidas que você informou. O valor final é confirmado depois de medirmos no local, já que pequenas variações de medida são normais.'},
+  {q:'O que muda entre janela e varanda?', a:'Janela costuma ser uma abertura só. Varanda pode ter mais de uma face (parede), principalmente quando faz esquina — por isso o simulador permite adicionar cada face separadamente.'},
+  {q:'O orçamento tem algum custo?', a:'Não, o orçamento é sempre gratuito, seja pelo WhatsApp ou com visita técnica presencial.'},
+  {q:'Quanto tempo leva pra instalar?', a:'Depois do orçamento confirmado, agendamos a instalação no horário mais rápido disponível na nossa agenda — combinamos o prazo certinho com você pelo WhatsApp.'},
+  {q:'Atendem em qual região?', a:'Atendemos toda a Grande Florianópolis, incluindo continente e ilha.'}
+];
+
+const fmt = (n) => n.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+const toNum = (v) => parseFloat(String(v).replace(',', '.')) || 0;
+
+let leadNome = '', leadBairro = '';
+let itens = [{id:1, tipo:null, nome:'', faces:[]}];
+let seqItem = 1, seqFace = 0;
+let tooltipOpenId = null;
+let openFaqIndex = null;
+
+function calcItem(it){
+  const faces = it.faces.map(f=>({L:toNum(f.largura), A:toNum(f.altura)})).filter(f=>f.L && f.A);
+  if(faces.length===0) return null;
+  const area = faces.reduce((s,f)=> s + f.L*f.A, 0);
+  return {area, valorOriginal: area*PRECO_M2_ORIGINAL, valorPromo: area*PRECO_M2};
+}
+
+function addItem(){
+  seqItem++;
+  itens.push({id:seqItem, tipo:null, nome:'', faces:[]});
+  render();
+}
+function removeItem(iid){
+  if(itens.length>1) itens = itens.filter(it=>it.id!==iid);
+  render();
+}
+function setTipo(iid, tipo){
+  seqFace++;
+  const sameType = itens.filter(it=>it.tipo===tipo).length;
+  const nome = (tipo==='varanda' ? 'Varanda ' : 'Janela ') + (sameType+1);
+  itens = itens.map(it=> it.id===iid ? {...it, tipo, nome, faces:[{id:seqFace, largura:'', altura:''}]} : it);
+  render();
+}
+function addFace(iid){
+  seqFace++;
+  itens = itens.map(it=> it.id===iid ? {...it, faces:[...it.faces, {id:seqFace, largura:'', altura:''}]} : it);
+  render();
+}
+function removeFace(iid, fid){
+  itens = itens.map(it=> it.id===iid ? {...it, faces: it.faces.length>1 ? it.faces.filter(f=>f.id!==fid) : it.faces} : it);
+  render();
+}
+function setNome(iid, val){
+  const it = itens.find(i=>i.id===iid);
+  if(it) it.nome = val;
+}
+function toggleTooltip(iid){
+  tooltipOpenId = tooltipOpenId===iid ? null : iid;
+  render();
+}
+function toggleFaq(idx){
+  openFaqIndex = openFaqIndex===idx ? null : idx;
+  renderFaq();
+}
+
+function computeTotais(){
+  const totalOriginalRaw = itens.reduce((s,it)=>{ const r=calcItem(it); return s + (r?r.valorOriginal:0); }, 0);
+  const totalPromoRaw = itens.reduce((s,it)=>{ const r=calcItem(it); return s + (r?r.valorPromo:0); }, 0);
+  let totalIsPromo = totalOriginalRaw >= PROMO_MINIMO;
+  let totalGeral = totalIsPromo ? totalPromoRaw : totalOriginalRaw;
+  let totalGeralOriginal = totalOriginalRaw;
+  const totalIsMinimo = totalOriginalRaw>0 && totalGeral < VALOR_MINIMO;
+  if(totalIsMinimo){ totalGeral = VALOR_MINIMO; totalGeralOriginal = VALOR_MINIMO; totalIsPromo = false; }
+  return {totalGeral, totalGeralOriginal, totalIsPromo, totalIsMinimo};
+}
+
+function render(){
+  const cont = document.getElementById('itens');
+  cont.innerHTML = '';
+  const total = itens.length;
+
+  itens.forEach(it=>{
+    const isVaranda = it.tipo==='varanda';
+    const div = document.createElement('div');
+    div.className = 'item' + (isVaranda ? ' varanda' : '');
+
+    let html = '';
+    if(total>1){
+      html += `<button class="item-excluir" data-remove="${it.id}" type="button">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C43F2C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>Excluir</button>`;
+    }
+
+    if(!it.tipo){
+      html += `
+        <div class="tipo-pergunta">Ambiente ${itens.indexOf(it)+1} — o que é?</div>
+        <div class="tipo-escolha">
+          <button class="tipo-btn janela" type="button" data-tipo="${it.id}:janela"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00009E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M12 3v18M4 12h16"/></svg>Janela</button>
+          <button class="tipo-btn varanda" type="button" data-tipo="${it.id}:varanda"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C43F2C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Varanda</button>
+        </div>`;
+    } else {
+      const tooltip = isVaranda ? `
+        <span class="info-wrap${tooltipOpenId===it.id ? ' aberto' : ''}" data-tooltipwrap="${it.id}">
+          <button class="info-icon" type="button" data-tooltip="${it.id}" aria-label="O que é uma face?">?</button>
+          <span class="tooltip">Cada "face" é uma parede/vão da varanda que também vai receber rede. Varanda de esquina, por exemplo, costuma ter 2 faces — meça cada uma separadamente.</span>
+        </span>` : '';
+
+      let facesHtml = '';
+      it.faces.forEach((f, idx)=>{
+        const podeRemover = isVaranda && it.faces.length>1;
+        facesHtml += `
+          <div class="face">
+            ${isVaranda ? `<div class="face-label"><span>Face ${idx+1}</span>${podeRemover ? `<button class="face-remover" type="button" data-removeface="${it.id}:${f.id}">✕</button>` : ''}</div>` : ''}
+            <div class="row2">
+              <div><label>Largura (m)</label><input type="text" inputmode="decimal" placeholder="Ex: 1,50" value="${f.largura}" data-field="largura" data-iid="${it.id}" data-fid="${f.id}"></div>
+              <div><label>Altura (m)</label><input type="text" inputmode="decimal" placeholder="Ex: 1,20" value="${f.altura}" data-field="altura" data-iid="${it.id}" data-fid="${f.id}"></div>
+            </div>
+          </div>`;
+      });
+
+      html += `
+        <div class="item-body">
+          <div class="item-head">
+            <span class="item-tag ${isVaranda ? 'varanda' : 'janela'}">
+              ${isVaranda
+                ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C43F2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Varanda`
+                : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00009E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M12 3v18M4 12h16"/></svg>Janela`}
+            </span>
+            ${tooltip}
+            <input class="item-nome" type="text" value="${it.nome}" data-nome="${it.id}">
+          </div>
+          ${facesHtml}
+          ${isVaranda ? `<button class="add-face-btn" type="button" data-addface="${it.id}">+ adicionar face desta varanda</button>` : ''}
+        </div>`;
+    }
+
+    div.innerHTML = html;
+    cont.appendChild(div);
+  });
+
+  // listeners
+  cont.querySelectorAll('[data-remove]').forEach(b=> b.addEventListener('click', ()=> removeItem(parseInt(b.dataset.remove))));
+  cont.querySelectorAll('[data-tipo]').forEach(b=> b.addEventListener('click', ()=>{
+    const [iid, tipo] = b.dataset.tipo.split(':');
+    setTipo(parseInt(iid), tipo);
+  }));
+  cont.querySelectorAll('[data-nome]').forEach(inp=> inp.addEventListener('input', e=> setNome(parseInt(e.target.dataset.nome), e.target.value)));
+  cont.querySelectorAll('[data-addface]').forEach(b=> b.addEventListener('click', ()=> addFace(parseInt(b.dataset.addface))));
+  cont.querySelectorAll('[data-removeface]').forEach(b=> b.addEventListener('click', ()=>{
+    const [iid, fid] = b.dataset.removeface.split(':').map(Number);
+    removeFace(iid, fid);
+  }));
+  cont.querySelectorAll('[data-field]').forEach(inp=> inp.addEventListener('input', e=>{
+    const iid = parseInt(e.target.dataset.iid), fid = parseInt(e.target.dataset.fid);
+    const it = itens.find(i=>i.id===iid);
+    it.faces.find(f=>f.id===fid)[e.target.dataset.field] = e.target.value;
+    atualizarResultado();
+  }));
+  cont.querySelectorAll('[data-tooltip]').forEach(b=> b.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    toggleTooltip(parseInt(b.dataset.tooltip));
+  }));
+
+  document.getElementById('btnAddItem').style.display = itens.some(it=>it.tipo) ? 'flex' : 'none';
+  atualizarResultado();
+}
+
+function atualizarResultado(){
+  const {totalGeral, totalGeralOriginal, totalIsPromo, totalIsMinimo} = computeTotais();
+  const hasResultado = totalGeral > 0;
+
+  document.getElementById('resultadoWrap').style.display = hasResultado ? 'block' : 'none';
+  document.getElementById('badgePromo').style.display = totalIsPromo ? 'inline-block' : 'none';
+  document.getElementById('valorRiscado').style.display = totalIsPromo ? 'block' : 'none';
+  document.getElementById('valorRiscado').textContent = `R$ ${fmt(totalGeralOriginal)}`;
+  document.getElementById('valorTotal').textContent = `R$ ${fmt(totalGeral)}`;
+  document.getElementById('notaPromo').style.display = totalIsPromo ? 'block' : 'none';
+  document.getElementById('notaMinimo').style.display = totalIsMinimo ? 'block' : 'none';
+
+  const floatBar = document.getElementById('floatBar');
+  floatBar.classList.toggle('show', hasResultado);
+  document.body.style.paddingBottom = hasResultado ? '76px' : '0';
+  document.getElementById('floatBadge').style.display = totalIsPromo ? 'inline-block' : 'none';
+  document.getElementById('floatRiscado').style.display = totalIsPromo ? 'inline' : 'none';
+  document.getElementById('floatRiscado').textContent = `R$ ${fmt(totalGeralOriginal)}`;
+  document.getElementById('floatTotal').textContent = `R$ ${fmt(totalGeral)}`;
+}
+
+function enviarWhatsapp(){
+  const validos = itens.map(it=>({it, res:calcItem(it)})).filter(x=>x.res);
+  if(validos.length===0){
+    alert('Preencha a largura e a altura de pelo menos um ambiente antes de enviar.');
+    return;
+  }
+  let msg = 'Olá! Simulei o orçamento no site:%0A%0A';
+  if(leadNome || leadBairro){
+    msg += `Nome: ${leadNome || '-'} — Bairro: ${leadBairro || '-'}%0A%0A`;
+  }
+  const totalOriginalRaw = validos.reduce((s,{res})=> s+res.valorOriginal, 0);
+  const totalPromoRaw = validos.reduce((s,{res})=> s+res.valorPromo, 0);
+  const isPromo = totalOriginalRaw >= PROMO_MINIMO;
+  let total = isPromo ? totalPromoRaw : totalOriginalRaw;
+  if(totalOriginalRaw>0 && total < VALOR_MINIMO) total = VALOR_MINIMO;
+  validos.forEach(({it,res})=>{
+    msg += `- ${it.nome} — ${fmt(res.area)} m²%0A`;
+  });
+  msg += `%0ATotal estimado: R$ ${fmt(total)}%0A%0AGostei do orçamento e quero saber mais.`;
+  const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${msg}`;
+  gtag_report_conversion(url);
+}
+
+function renderFaq(){
+  const cont = document.getElementById('faqList');
+  cont.innerHTML = '';
+  FAQS.forEach((f, idx)=>{
+    const open = openFaqIndex===idx;
+    const div = document.createElement('div');
+    div.className = 'faq-item' + (open ? ' open' : '');
+    div.innerHTML = `
+      <button class="faq-q" type="button" data-faq="${idx}">
+        <span>${f.q}</span>
+        <span class="faq-icon">${open ? '–' : '+'}</span>
+      </button>
+      <div class="faq-a"><p>${f.a}</p></div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('[data-faq]').forEach(b=> b.addEventListener('click', ()=> toggleFaq(parseInt(b.dataset.faq))));
+}
+
+document.getElementById('leadNome').addEventListener('input', e=> leadNome = e.target.value);
+document.getElementById('leadBairro').addEventListener('input', e=> leadBairro = e.target.value);
+document.getElementById('btnAddItem').addEventListener('click', addItem);
+document.getElementById('btnZap').addEventListener('click', enviarWhatsapp);
+document.getElementById('btnZapFloat').addEventListener('click', enviarWhatsapp);
+document.body.addEventListener('click', ()=>{
+  if(tooltipOpenId !== null){ tooltipOpenId = null; render(); }
+});
+
+render();
+renderFaq();
+</script>
+
+</body>
+</html>
