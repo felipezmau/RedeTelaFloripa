@@ -344,7 +344,7 @@
 
     const msg = `Olá! Quero confirmar meu orçamento de rede de proteção:\n\n` +
       itens.map(i => '• ' + i).join('\n') +
-      `\n\nÁrea: ${AREA_M2} m² · Total: ${fmt(subtotal)}`;
+      `\n\nTotal: ${fmt(subtotal)}`;
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`, '_blank');
   }
 </script>
