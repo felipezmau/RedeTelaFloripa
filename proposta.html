@@ -229,7 +229,7 @@
         <li>Rede 30/21 (21 fios / 30mm torcido), 2,2mm, malha 5x5 (padrão)</li>
         <li>100% polietileno de alta densidade virgem</li>
         <li>Tratamento Anti-UV e Anti-Oxidante (evita o apodrecimento da rede)</li>
-        <li>Ganchos zincados</li>
+        <li id="inc-gancho">Ganchos zincados</li>
         <li>Buchas 8mm com flange</li>
         <li>3 anos de garantia</li>
       </ul>
@@ -245,7 +245,7 @@
       <ul>
         <li>Cores disponíveis: branca ou preta (sob consulta)</li>
         <li>Orçamento válido por 30 dias, sujeito a conferência da medida no local</li>
-        <li>Valores sujeitos a variação de 5 a 10% pra mais ou menos, conforme aferição da medida final no dia da instalação</li>
+        <li>Valores sujeitos a variação pra mais ou menos, conforme aferição da medida final no dia da instalação pelo técnico</li>
       </ul>
     </div>
   </div>
@@ -312,6 +312,7 @@
     document.getElementById('pay-note').textContent =
       `Pix à vista: ${fmt(subtotal*0.95)} (5% de desconto) · Cartão em até 3x sem juros de ${fmt(subtotal/3)}, ou em até 12x com juros da operadora`;
 
+    document.getElementById('inc-gancho').textContent = state.inox ? 'Ganchos em aço inox 304L' : 'Ganchos zincados';
     document.getElementById('chk-inox').classList.toggle('on', state.inox);
     document.getElementById('chk-pu').classList.toggle('on', state.pu);
     document.getElementById('price-inox').classList.toggle('on', state.inox);
