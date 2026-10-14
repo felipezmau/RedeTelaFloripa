@@ -77,6 +77,7 @@
   .price-card { text-align: center; padding: 26px 20px; }
   .price-card .label { font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
   .total-num { font-size: 42px; font-weight: 600; color: var(--primary); line-height: 1; transition: color .15s; }
+  .old-price { font-size: 15px; color: var(--ink-soft); text-decoration: line-through; margin-top: 8px; }
   .pay-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 10px; line-height: 1.5; }
 
   .opt-grid {
@@ -178,8 +179,9 @@
   </div>
 
   <div class="card price-card">
-    <div class="label">Valor do orçamento</div>
+    <div class="label">No Pix à vista · 5% de desconto</div>
     <div class="total-num mono" id="total">R$ 1.058,90</div>
+    <div class="old-price mono" id="old-price"></div>
     <div class="pay-note" id="pay-note"></div>
   </div>
 
@@ -308,9 +310,10 @@
     if (state.inox) subtotal += custoInoxExtra;
     if (state.pu) subtotal += custoPuExtra;
 
-    document.getElementById('total').textContent = fmt(subtotal);
+    document.getElementById('total').textContent = fmt(subtotal*0.95);
+    document.getElementById('old-price').textContent = fmt(subtotal);
     document.getElementById('pay-note').textContent =
-      `Pix à vista: ${fmt(subtotal*0.95)} (5% de desconto) · Cartão em até 3x sem juros de ${fmt(subtotal/3)}, ou em até 12x com juros da operadora`;
+      `ou em até 3x sem juros de ${fmt(subtotal/3)} no cartão (ou em até 12x com juros da operadora)`;
 
     document.getElementById('inc-gancho').textContent = state.inox ? 'Ganchos em aço inox 304L' : 'Ganchos zincados';
     document.getElementById('chk-inox').classList.toggle('on', state.inox);
@@ -345,7 +348,7 @@
 
     const msg = `Olá! Quero confirmar meu orçamento de rede de proteção:\n\n` +
       itens.map(i => '• ' + i).join('\n') +
-      `\n\nTotal: ${fmt(subtotal)}`;
+      `\n\nTotal: ${fmt(subtotal)} (no Pix: ${fmt(subtotal*0.95)})`;
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`, '_blank');
   }
 </script>

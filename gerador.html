@@ -184,7 +184,7 @@
   const PRECO_PU_POR_GANCHO = 0.80;
 
   // troque pela URL onde a proposta.html está publicada
-  const PROPOSTA_URL = 'https://claude.ai/artifact/CLpv3Qxoh24DbEJ2gokchd';
+  const PROPOSTA_URL = 'https://redetelafloripa.com/proposta.html';
 
   // banco de dados do artifact — guarda seu histórico de orçamentos gerados.
   // Só você (dono do artifact) usa isso; a página do cliente não depende disso.
@@ -369,7 +369,7 @@
   const OBSERVACOES = [
     'Cores disponíveis: branca ou preta (sob consulta)',
     'Orçamento válido por 30 dias, sujeito a conferência da medida no local',
-    'Valores sujeitos a variação de 5 a 10% pra mais ou menos, conforme aferição da medida final no dia da instalação'
+    'Valores sujeitos a variação pra mais ou menos, conforme aferição da medida final no dia da instalação pelo técnico'
   ];
 
   // monta o documento (separado do download para facilitar testes)
@@ -405,13 +405,19 @@
     doc.setFillColor(...tint);
     doc.roundedRect(M, y, W - 2 * M, boxH, 3, 3, 'F');
     doc.setFontSize(10); doc.setTextColor(...soft);
-    doc.text('Valor do orçamento', M + 8, y + 10);
+    doc.text('No Pix à vista · 5% de desconto', M + 8, y + 10);
     doc.setFont('helvetica', 'bold'); doc.setFontSize(28); doc.setTextColor(...blue);
-    doc.text(fmt(d.subtotal), M + 8, y + 23);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(...ink);
-    doc.text('Pix à vista: ' + fmt(d.subtotal * 0.95) + ' (5% de desconto)', M + 8, y + 32);
-    doc.text('Cartão em até 3x sem juros de ' + fmt(d.subtotal / 3), M + 8, y + 38);
-    doc.text('ou em até 12x com juros da operadora', M + 8, y + 44);
+    doc.text(fmt(d.subtotal * 0.95), M + 8, y + 23);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(...soft);
+    const antigo = fmt(d.subtotal);
+    doc.text(antigo, M + 8, y + 31);
+    const wAnt = doc.getTextWidth(antigo);
+    doc.setDrawColor(...soft); doc.setLineWidth(0.3);
+    doc.line(M + 8, y + 30, M + 8 + wAnt, y + 30);
+    doc.setFontSize(10); doc.setTextColor(...ink);
+    doc.text('ou em até 3x sem juros de ' + fmt(d.subtotal / 3) + ' no cartão', M + 8, y + 38);
+    doc.setTextColor(...soft);
+    doc.text('(ou em até 12x com juros da operadora)', M + 8, y + 44);
     y += boxH + 12;
 
     const secao = titulo => {
